@@ -10,6 +10,9 @@ include_recipe 'python'
 
 require 'fileutils'
 
+# munin-node for hardware info
+package 'munin-node'
+
 # download
 package 'unzip'
 remote_file '/tmp/10gen-mms-agent.zip' do
