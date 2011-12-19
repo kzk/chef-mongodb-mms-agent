@@ -27,7 +27,7 @@ This is an example role file, toghether with edelight's recipe (https://github.c
     override_attributes(
       # for mongodb
       :mongodb => {
-        :cluster_name => "kayac2",
+        :cluster_name => "cluster_foo",
         :dbpath       => "/md0/mongo/db/",
         :logpath      => "/md0/mongo/logs/",
         :port         => 27017,
