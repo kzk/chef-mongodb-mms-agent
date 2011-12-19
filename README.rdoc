@@ -1,8 +1,40 @@
 = DESCRIPTION:
 
+Opscode Chef (http://www.opscode.com/chef/) cookbook for MongoDB Monitoring System (MMS) agent (http://www.10gen.com/mongodb-monitoring-service).
+
 = REQUIREMENTS:
+
+- python cookbook
+- runit cookbook
 
 = ATTRIBUTES:
 
+- node[:mms_agent][:api_key]
+- node[:mms_agent][:secret_key]
+
 = USAGE:
 
+This is an example role file, toghether with edelight's recipe (https://github.com/edelight/chef-cookbooks).
+
+    name "mongo"
+    description "mongo server role."
+    run_list(
+      "recipe[mongodb::10gen_repo]",
+      "recipe[python]",
+      "recipe[runit]",
+      "recipe[mms-agent]",
+    )
+    override_attributes(
+      # for mongodb
+      :mongodb => {
+        :cluster_name => "kayac2",
+        :dbpath       => "/md0/mongo/db/",
+        :logpath      => "/md0/mongo/logs/",
+        :port         => 27017,
+      },
+      # for mms-agent
+      :mms_agent => {
+        :api_key => 'foo',
+        :secret_key => 'bar'
+      }
+    )
