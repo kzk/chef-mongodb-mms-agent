@@ -10,7 +10,7 @@ The {knife-github-cookbooks}[https://github.com/websterclay/knife-github-cookboo
 
     $ gem install knife-github-cookbooks
     $ cd chef-repo
-    $ knife cookbook github install treasure-data/mms-agent
+    $ knife cookbook github install treasure-data/chef-mongodb-mms-agent
 
 = REQUIREMENTS:
 
