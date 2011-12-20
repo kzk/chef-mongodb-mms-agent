@@ -2,19 +2,31 @@
 
 Opscode Chef (http://www.opscode.com/chef/) cookbook for MongoDB Monitoring System (MMS) agent (http://www.10gen.com/mongodb-monitoring-service).
 
+= INSTALLATION:
+
+The {knife-github-cookbooks}[https://github.com/websterclay/knife-github-cookbooks] gem is a plugin for knife that supports installing cookbooks directly from a GitHub repository. To install with this plugin, please follow these steps:
+
+    $ gem install knife-github-cookbooks
+    $ cd chef-repo
+    $ knife cookbook github install treasure-data/mms-agent
+
 = REQUIREMENTS:
+
+This recipe has these external dependencies.
 
 - python cookbook
 - runit cookbook
 
 = ATTRIBUTES:
 
-- node[:mms_agent][:api_key]
-- node[:mms_agent][:secret_key]
+API Key, and the Secret Key are required. Please get them at your {MMS Settings page}[https://mms.10gen.com/settings].
+
+- node[:mms_agent][:api_key] (required)
+- node[:mms_agent][:secret_key] (required)
 
 = USAGE:
 
-This is an example role file, toghether with edelight's recipe (https://github.com/edelight/chef-cookbooks).
+This is an example role file, together with edelight's great MongoDB recipe (https://github.com/edelight/chef-cookbooks).
 
     name "mongo"
     description "mongo server role."
