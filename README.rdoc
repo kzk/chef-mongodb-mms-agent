@@ -1,6 +1,8 @@
 = DESCRIPTION:
 
-Opscode Chef (http://www.opscode.com/chef/) cookbook for MongoDB Monitoring System (MMS) agent (http://www.10gen.com/mongodb-monitoring-service).
+{Opscode Chef}[http://www.opscode.com/chef/] cookbook for {MongoDB Monitoring System (MMS)}[http://www.10gen.com/mongodb-monitoring-service] agent. MMS is a hosted monitoring service, provided by 10gen, Inc. Once the small python agent program is installed on the MongoDB host, it automatically collects the metrics and upload them to the MMS server. The graphs of these metrics are shown on the web page. It helps a lot for tackling MongoDB related problems, so MMS is the baseline for all production MongoDB deployments. 
+
+NOTE: This chef recipe installs only the agent program, not MongoDB itself. edelight's great {MongoDB recipe}[https://github.com/edelight/chef-cookbooks] is recommended.
 
 = INSTALLATION:
 
@@ -26,7 +28,7 @@ API Key, and the Secret Key are required. Please get them at your {MMS Settings 
 
 = USAGE:
 
-This is an example role file, together with edelight's great MongoDB recipe (https://github.com/edelight/chef-cookbooks).
+This is an example role file, together with edelight's great {MongoDB recipe}[https://github.com/edelight/chef-cookbooks].
 
     name "mongo"
     description "mongo server role."
