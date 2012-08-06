@@ -16,7 +16,7 @@ package 'munin-node'
 # download
 package 'unzip'
 remote_file '/tmp/10gen-mms-agent.zip' do
-  source 'https://mms-stage.10gen.com/settings/10gen-mms-agent.zip'
+  source 'https://mms.10gen.com/settings/10gen-mms-agent.zip'
 end
 
 # unzip
@@ -41,7 +41,7 @@ ruby_block 'modify settings.py' do
       orig_s = f.read
     }
     s = orig_s
-    s = s.gsub(/mms-stage\.10gen\.com/, 'mms.10gen.com')
+    s = s.gsub(/mms\.10gen\.com/, 'mms.10gen.com')
     s = s.gsub(/@API_KEY@/, node[:mms_agent][:api_key])
     s = s.gsub(/@SECRET_KEY@/, node[:mms_agent][:secret_key])
     if s != orig_s
