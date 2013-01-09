@@ -21,7 +21,7 @@ end
 
 # unzip
 bash 'unzip 10gen-mms-agent' do
-  cwd '/tmp/'
+  cwd Chef::Config[:file_cache_path]
   code <<-EOH
     unzip -o -d /usr/local/share/ ./10gen-mms-agent.zip
   EOH
