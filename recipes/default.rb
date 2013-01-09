@@ -15,13 +15,13 @@ package 'munin-node'
 
 # download
 package 'unzip'
-remote_file '/tmp/10gen-mms-agent.zip' do
+remote_file "/#{Chef::Config[:file_cache_path]}/10gen-mms-agent.zip" do
   source 'https://mms.10gen.com/settings/10gen-mms-agent.zip'
 end
 
 # unzip
 bash 'unzip 10gen-mms-agent' do
-  cwd '/tmp/'
+  cwd Chef::Config[:file_cache_path]
   code <<-EOH
     unzip -o -d /usr/local/share/ ./10gen-mms-agent.zip
   EOH
@@ -42,8 +42,8 @@ ruby_block 'modify settings.py' do
     }
     s = orig_s
     s = s.gsub(/mms\.10gen\.com/, 'mms.10gen.com')
-    s = s.gsub(/@API_KEY@/, node[:mms_agent][:api_key])
-    s = s.gsub(/@SECRET_KEY@/, node[:mms_agent][:secret_key])
+    s = s.gsub(/@API_KEY@/, node.mms_agent.api_key)
+    s = s.gsub(/@SECRET_KEY@/, node.mms_agent.secret_key)
     if s != orig_s
       open('/usr/local/share/mms-agent/settings.py','w') { |f|
         f.puts(s)
@@ -52,9 +52,13 @@ ruby_block 'modify settings.py' do
   end
 end
 
+case node.mms_agent.init_style
+when "runit"
 # runit
 runit_service 'mms-agent' do
   template_name 'mms-agent'
   cookbook 'mms-agent'
   run_restart false
+end
+when "none"
 end
