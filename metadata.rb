@@ -1,3 +1,4 @@
+name             "mongodb-mms-agent"
 maintainer       "Treasure Data, Inc."
 maintainer_email "k@treasure-data.com"
 license          "All rights reserved"
