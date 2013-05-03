@@ -1,0 +1,56 @@
+#!/bin/bash
+#
+#       /etc/rc.d/init.d/mms-agent
+#
+#       10Gen Mongod montiroing service
+#       must edit the settings.py first and edit this file with the location of agent.py
+#
+# description: 10Gen monitoring service - need ot fix pid so we can shut it down
+# chkconfig: -  90 10
+
+# Source function library.
+. /etc/init.d/functions
+
+prog="mms-agent"
+python="/usr/bin/python"
+agent="/usr/local/share/mms-agent/agent.py"
+logfile="/var/log/mms/$prog.log"
+pidfile="/var/run/$prog.pid"
+
+
+start() {
+        echo -n "Starting $prog: "
+        daemon --user <%= @user %> --pidfile $pidfile  "$python $agent > $logfile 2>&1 &"
+        pid="$(pgrep -f ${agent})"
+        retval=$?
+        pid=$$
+        echo $pid > $pidfile
+        [ $retval -eq 0 ] && touch /var/lock/subsys/$prog
+        return $retval
+}
+
+stop() {
+        echo -n "Shutting down $prog: "
+        killproc -p $pidfile $prog
+        retval=$?
+        [ $retval -eq 0 ] && rm -f /var/lock/subsys/$prog
+        return $retval
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: <servicename> {start|stop|restart}"
+        exit 1
+        ;;
+esac
+exit $?
