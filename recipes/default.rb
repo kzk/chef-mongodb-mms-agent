@@ -20,18 +20,26 @@ if node[:mms_agent][:monitor_hardware]
 end
 
 # download
-package 'unzip'
-remote_file "/#{Chef::Config[:file_cache_path]}/10gen-mms-agent.zip" do
+file_name = node[:mms_agent][:source].split('/').last
+cache_path = "#{Chef::Config[:file_cache_path]}/#{file_name}"
+remote_file cache_path do
   source node[:mms_agent][:source]
 end
 
-# unzip
-bash 'unzip 10gen-mms-agent' do
-  cwd Chef::Config[:file_cache_path]
-  code <<-EOH
-    unzip -o -d /usr/local/share/ ./10gen-mms-agent.zip
-  EOH
-  not_if { File.exist?('/usr/local/share/mms-agent') }
+if file_name.end_with? '.zip'
+  package 'unzip'
+  bash 'unzip 10gen-mms-agent' do
+    cwd Chef::Config[:file_cache_path]
+    code <<-EOH
+    unzip -o -d /usr/local/share/ #{cache_path}
+    EOH
+    not_if { File.exist?('/usr/local/share/mms-agent') }
+  end
+else
+  execute "extract archive" do
+    command "tar xzf #{cache_path} -C /usr/local/share/"
+    creates "/usr/local/share/mms-agent"
+  end
 end
 
 # install pymongo

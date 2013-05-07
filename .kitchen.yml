@@ -17,16 +17,8 @@ suites:
     mms_agent:
       monitor_hardware: true
       init_style: 'initd'
-      source: 'https://mms.10gen.com/settings/mmsAgent/c877332c8b66ec9de83eec6785cc6b40/10gen-mms-agent-test_cookook.zip' #uses a fake mms account (login/mdp: me@example.org/example.com)
-- name: default
-  run_list: ["recipe[mongodb-mms-agent]"]
-  attributes:
-    mongodb:
-      user: 'root'
-      group: 'root'
-    mms_agent:
-      monitor_hardware: false
-- name: hardware
+      source: 'https://mms.10gen.com/settings/mmsAgent/c877332c8b66ec9de83eec6785cc6b40/10gen-mms-agent-test_cookook.zip' #uses a fake mms account (login/mdp: me@example.org/example.org)
+- name: with-tar
   run_list: ["recipe[yum::epel]", "recipe[mongodb-mms-agent]"]
   attributes:
     mongodb:
@@ -34,3 +26,19 @@ suites:
       group: 'root'
     mms_agent:
       monitor_hardware: true
+      init_style: 'initd'
+      source: 'https://mms.10gen.com/settings/mmsAgent/c877332c8b66ec9de83eec6785cc6b40/10gen-mms-agent-test_cookook.tar.gz' #uses a fake mms account (login/mdp: me@example.org/example.org)
+- name: default
+  run_list: ["recipe[yum::epel]", "recipe[mongodb-mms-agent]"]
+  attributes:
+    mongodb:
+      user: 'root'
+      group: 'root'
+- name: no-hardware
+  run_list: ["recipe[mongodb-mms-agent]"]
+  attributes:
+    mongodb:
+      user: 'root'
+      group: 'root'
+    mms_agent:
+      monitor_hardware: false
