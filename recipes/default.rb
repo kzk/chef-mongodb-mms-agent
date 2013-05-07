@@ -8,7 +8,7 @@
 #
 include_recipe 'python'
 
-require 'fileutils'
+#require 'fileutils'
 
 # munin-node for hardware info
 if node[:mms_agent][:monitor_hardware]
@@ -28,12 +28,10 @@ end
 
 if file_name.end_with? '.zip'
   package 'unzip'
-  bash 'unzip 10gen-mms-agent' do
+  execute 'unzip 10gen-mms-agent' do
     cwd Chef::Config[:file_cache_path]
-    code <<-EOH
-    unzip -o -d /usr/local/share/ #{cache_path}
-    EOH
-    not_if { File.exist?('/usr/local/share/mms-agent') }
+    command "unzip -o -d /usr/local/share/ #{cache_path}"
+    creates '/usr/local/share/mms-agent'
   end
 else
   execute "extract archive" do
