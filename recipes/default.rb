@@ -46,7 +46,7 @@ python_pip 'pymongo' do
 end
 
 #If login/mdp are not provided, we consider that agent has been downloaded from secret location
-if !node[:mms_agent][:api_key].nil? and !node[:mms_agent][:api_key].nil?
+if !node[:mms_agent][:api_key].nil? and !node[:mms_agent][:secret_key].nil?
   ruby_block 'modify settings.py' do
     block do
       orig_s = ''
