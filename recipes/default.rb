@@ -67,8 +67,8 @@ if !node[:mms_agent][:api_key].nil? and !node[:mms_agent][:secret_key].nil?
 end
 
 directory "/var/log/mms" do
-  owner node[:mongodb][:user]
-  group node[:mongodb][:group]
+  owner node[:mms_agent][:user]
+  group node[:mms_agent][:group]
   mode '0755'
 end
 
@@ -79,8 +79,8 @@ when "runit"
     template_name 'mms-agent'
     cookbook 'mongodb-mms-agent'
     options({
-      :user => node[:mongodb][:user],
-      :group => node[:mongodb][:group]
+      :user => node[:mms_agent][:user],
+      :group => node[:mms_agent][:group]
     })
   end
 else
@@ -88,7 +88,7 @@ else
     source 'initd.erb'
     mode '0744'
     variables(
-      :user => node[:mongodb][:user]
+      :user => node[:mms_agent][:user]
     )
   end
   service "mms-agent" do
