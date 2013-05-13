@@ -88,7 +88,8 @@ else
     source 'initd.erb'
     mode '0744'
     variables(
-      :user => node[:mms_agent][:user]
+      :user => node[:mms_agent][:user],
+      :python_path => node[:python][:binary]
     )
   end
   service "mms-agent" do

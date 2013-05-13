@@ -12,7 +12,7 @@
 . /etc/init.d/functions
 
 prog="mms-agent"
-python="/usr/bin/python"
+python=<%= @python_path %>
 agent="/usr/local/share/mms-agent/agent.py"
 logfile="/var/log/mms/$prog.log"
 pidfile="/var/run/$prog.pid"
