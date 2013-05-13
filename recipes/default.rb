@@ -24,6 +24,7 @@ file_name = node[:mms_agent][:source].split('/').last
 cache_path = "#{Chef::Config[:file_cache_path]}/#{file_name}"
 remote_file cache_path do
   source node[:mms_agent][:source]
+  action :create_if_missing #because it auto-updates
 end
 
 if file_name.end_with? '.zip'
