@@ -23,7 +23,6 @@ start() {
         daemon --user <%= @user %> --pidfile $pidfile  "$python $agent > $logfile 2>&1 &"
         pid="$(pgrep -f ${agent})"
         retval=$?
-        pid=$$
         echo $pid > $pidfile
         [ $retval -eq 0 ] && touch /var/lock/subsys/$prog
         return $retval
@@ -37,6 +36,14 @@ stop() {
         return $retval
 }
 
+
+check_status() {
+        echo -n "Checking status of $prog: "
+        status -p $pidfile $prog
+        retval=$?
+        return $retval
+}
+
 case "$1" in
     start)
         start
@@ -44,12 +51,15 @@ case "$1" in
     stop)
         stop
         ;;
+    status)
+        check_status
+        ;;
     restart)
         stop
         start
         ;;
     *)
-        echo "Usage: <servicename> {start|stop|restart}"
+        echo "Usage: <servicename> {start|stop|restart|status}"
         exit 1
         ;;
 esac
