@@ -21,12 +21,25 @@ This cookbook has these external dependencies.
 
 = ATTRIBUTES:
 
-API Key, and the Secret Key are required. Please get them at your {MMS Settings page}[https://mms.10gen.com/settings].
 
-- node[:mms_agent][:api_key] (required)
-- node[:mms_agent][:secret_key] (required)
+- node[:mms_agent][:source]
+Link to the agent archive. You can provide either your custom link (see .kitchen.yml for an example) or use default
+
+
+- node[:mms_agent][:api_key]
+- node[:mms_agent][:secret_key]
+API and Secret Key are required if you don't provide the custom (secret) link to the agent archive. You can get them at {MMS settings page}[https://mms.10gen.com/settings].
+
+
+- node[:mms_agent][:monitor_hardware]
+If you want to have mms agent sending munin-collected information to mms.10gen.com, set this to true (default).
+
+- node[:mms_agent][:init_style]
+If you want to use runit to manage the agent, set 'runit' (default). Any other value will use initd. 
 
 = USAGE:
+
+You can see .kitchen.yml to see example of usages.
 
 This is an example role file, together with edelight's great {MongoDB cookbook}[https://github.com/edelight/chef-cookbooks].
 

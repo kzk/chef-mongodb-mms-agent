@@ -1,0 +1,45 @@
+---
+driver_plugin: vagrant
+
+platforms:
+- name: centos-6.3
+  driver_config:
+    box: opscode-centos-6.3
+    box_url: http://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.3_chef-11.2.0.box
+
+suites:
+- name: init
+  run_list: ["recipe[yum::epel]", "recipe[mongodb-mms-agent]"]
+  attributes:
+    mms_agent:
+      user: 'root'
+      group: 'root'
+      monitor_hardware: true
+      init_style: 'initd'
+      source: 'https://mms.10gen.com/settings/mmsAgent/c877332c8b66ec9de83eec6785cc6b40/10gen-mms-agent-test_cookook.zip' #uses a fake mms account (login/mdp: me@example.org/example.org)
+- name: with-tar
+  run_list: ["recipe[yum::epel]", "recipe[mongodb-mms-agent]"]
+  attributes:
+    mms_agent:
+      user: 'root'
+      group: 'root'
+      monitor_hardware: true
+      init_style: 'initd'
+      source: 'https://mms.10gen.com/settings/mmsAgent/c877332c8b66ec9de83eec6785cc6b40/10gen-mms-agent-test_cookook.tar.gz' #uses a fake mms account (login/mdp: me@example.org/example.org)
+- name: default
+  run_list: ["recipe[yum::epel]", "recipe[mongodb-mms-agent]"]
+  attributes:
+    mms_agent:
+      user: 'root'
+      group: 'root'
+      secret_key: '8f27067fbb93c7d41a295a163a6ed46a'
+      api_key: 'c877332c8b66ec9de83eec6785cc6b40'
+- name: no-hardware
+  run_list: ["recipe[mongodb-mms-agent]"]
+  attributes:
+    mms_agent:
+      user: 'root'
+      group: 'root'
+      monitor_hardware: false
+      secret_key: '8f27067fbb93c7d41a295a163a6ed46a'
+      api_key: 'c877332c8b66ec9de83eec6785cc6b40'
